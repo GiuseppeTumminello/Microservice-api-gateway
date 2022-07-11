@@ -1,6 +1,7 @@
 package com.acoustic.apigateway.swagger;
 
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
@@ -10,6 +11,7 @@ import java.util.List;
 
 
 @Component
+@Primary
 public class SwaggerProvider implements SwaggerResourcesProvider {
     public static final String API_URI = "/v3/api-docs";
 
