@@ -25,9 +25,11 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     public List<SwaggerResource> get() {
         List<SwaggerResource> resources = new ArrayList<>();
         routeLocator.getRouteDefinitions().subscribe(routeDefinition -> {
-            String resourceName = routeDefinition.getId();
-            String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
-            resources.add(swaggerResource(resourceName, location));
+            if (!routeDefinition.getId().startsWith("server")) {
+                String resourceName = routeDefinition.getId();
+                String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
+                resources.add(swaggerResource(resourceName, location));
+            }
         });
 
         return resources;
