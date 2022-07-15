@@ -14,6 +14,9 @@ import java.util.List;
 @Primary
 public class SwaggerProvider implements SwaggerResourcesProvider {
     public static final String API_URI = "/v3/api-docs";
+    public static final String SWAGGER_VERSION = "3.0";
+    public static final String ROUTE_PREFIX = "server";
+    public static final String GENKEY_0 = "_genkey_0";
 
     private final RouteDefinitionLocator routeLocator;
 
@@ -25,9 +28,9 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     public List<SwaggerResource> get() {
         List<SwaggerResource> resources = new ArrayList<>();
         routeLocator.getRouteDefinitions().subscribe(routeDefinition -> {
-            if (!routeDefinition.getId().startsWith("server")) {
+            if (!routeDefinition.getId().startsWith(ROUTE_PREFIX)) {
                 String resourceName = routeDefinition.getId();
-                String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
+                String location = routeDefinition.getPredicates().get(0).getArgs().get(GENKEY_0).replace("/**", API_URI);
                 resources.add(swaggerResource(resourceName, location));
             }
         });
@@ -39,7 +42,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
         SwaggerResource swaggerResource = new SwaggerResource();
         swaggerResource.setName(name);
         swaggerResource.setLocation(location);
-        swaggerResource.setSwaggerVersion("3.0");
+        swaggerResource.setSwaggerVersion(SWAGGER_VERSION);
         return swaggerResource;
     }
 }
